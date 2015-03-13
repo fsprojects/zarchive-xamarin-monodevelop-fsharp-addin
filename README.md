@@ -1,5 +1,7 @@
 # F# Language Support for Open Editors
 
+[![Join the chat at https://gitter.im/fsharp/FSharpMDXS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fsharp/FSharpMDXS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fsharp/fsharpbinding?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This project contains advanced editing support for F# for a number of open editors. It is made up of the following projects:
