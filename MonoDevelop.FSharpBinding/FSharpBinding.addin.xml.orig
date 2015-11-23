@@ -10,6 +10,7 @@
     <Import file="CompilerService.exe" />
     <Import assembly="FantomasLib.dll" />
     <Import assembly="FSharp.Compiler.CodeDom.dll" />
+    <Import assembly="Argu.dll" />
     <Import assembly="ExtCore.dll" />
     <Import assembly="FsPickler.Json.dll" />
     <Import assembly="FsPickler.dll" />
@@ -31,6 +32,7 @@
     <Import file = "Templates/FSharpNUnitLibraryProject.xpt.xml" />
     <Import file = "Templates/FSharpNUnitTestType.xft.xml" />
     <Import file = "Templates/PortableLibrary.xpt.xml" />
+    <Import file = "Templates/SharedAssetsProject.xpt.xml" />
 
     <!-- Code templates -->
     <Import file = "Templates/FSharp-templates.xml" />
@@ -101,8 +103,9 @@
     <ProjectTemplate id="FSharpGtkProject" file="Templates/FSharpGtkProject.xpt.xml"/>
     <ProjectTemplate id="FSharpNUnitLibraryProject" file="Templates/FSharpNUnitLibraryProject.xpt.xml"/>
     
-    <Condition id="MSBuildTargetIsAvailable" target="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.Portable.FSharp.Targets" >-->
+    <Condition id="MSBuildTargetIsAvailable" target="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.Portable.FSharp.Targets" >
       <ProjectTemplate id="FSharpPortableLibrary" file = "Templates/PortableLibrary.xpt.xml" />
+      <ProjectTemplate id="FSharpSharedAssetsProject" file = "Templates/SharedAssetsProject.xpt.xml" />
     </Condition>
   </Extension>
 
