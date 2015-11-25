@@ -139,7 +139,7 @@ type FSharpTooltipProvider() =
       | EmptyDoc -> ()
       result.AddOverload(toolTipInfo)
       result.RepositionWindow ()         
-      new Control(result)
+      Control.op_Implicit result
     | _ -> LoggingService.LogError "TooltipProvider: Type mismatch"
            null
           
