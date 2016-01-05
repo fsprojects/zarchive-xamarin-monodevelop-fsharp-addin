@@ -3,6 +3,7 @@ open NUnit.Framework
 open MonoDevelop.FSharp
 open FsUnit
 open Mono.TextEditor
+open MonoDevelop.Ide.Editor
 
 [<TestFixture>]
 type IndentationTrackerTests() =
@@ -26,6 +27,14 @@ type IndentationTrackerTests() =
       let idx = text.IndexOf ('§')
       let doc = TextDocument(text.Substring(0, idx) + text.Substring(idx + 1))
       use data = new TextEditorData (doc)
+      
+      //let doc = TextEditorFactory.CreateNewDocument()
+      //let editor = MonoDevelop.Ide.Editor.TextEditorFactory.CreateNewEditor(doc)
+      //editor.Text <- text.Substring(0, idx) + text.Substring(idx + 1)    
+      //editor.CaretOffset <- idx
+    
+      //data.IndentationTracker <- FSharpIndentationTracker(xxx)
+      data.Options.IndentStyle <- Mono.TextEditor.IndentStyle.Smart
       data.Caret.Offset <- idx
       MiscActions.InsertNewLine(data)
       data.Document.Text 
@@ -76,3 +85,11 @@ let b = (fun a ->
         |> insertEnterAtSection 
         |> should equal """  let a = 
   123"""
+  
+    [<Test>]
+    member x.``Enter will indent let``() =
+        let input = """  let a =§"""
+        input
+        |> insertEnterAtSection 
+        |> should equal """  let a =
+  """

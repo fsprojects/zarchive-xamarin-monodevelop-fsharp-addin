@@ -13,8 +13,10 @@ type FSharpIndentationTracker(data:TextEditor) =
     let indenters = ["=";" do";"{";"[";"[|";"->";" try"]
 
     let (|AddIndent|_|) (x:string) = 
-        if indenters |> List.exists(x.EndsWith) then Some ()
-        else None
+        match indenters |> List.tryFind(x.EndsWith) with
+        | Some ind -> Some (x.LastIndexOf ind)
+        | _ -> None
+
     let (|Match|_|) (x:string) = 
         if x.EndsWith "with" && x.Contains("match ") then Some (x.LastIndexOf "match ")
         else None
@@ -30,7 +32,7 @@ type FSharpIndentationTracker(data:TextEditor) =
         match data.GetLineText(line.LineNumber).TrimEnd() with
         | x when String.IsNullOrWhiteSpace(x) -> getIndentation (lineDistance + 1) line.PreviousLine
         | Match i   when lineDistance < 2 -> String(' ', i)
-        | AddIndent when lineDistance < 2 -> String(' ', line.GetIndentation(data).Length + indentSize)
+        | AddIndent i when lineDistance < 2 && data.CaretColumn > i -> String(' ', line.GetIndentation(data).Length + indentSize)
         | _ -> line.GetIndentation data
   
     let getIndentString lineNumber =  
