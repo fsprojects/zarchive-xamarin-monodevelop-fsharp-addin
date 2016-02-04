@@ -59,6 +59,8 @@ module Search =
             with ex ->
                 LoggingService.LogError("Global Search (F#) error", ex)
                 return Seq.empty }
+    
+    //let getAllSymbolsInAllProjects() =
 
     /// constructors have a display name of ( .ctor ) use the enclosing entities display name
     let correctDisplayName (symbol:FSharpSymbolUse) =
