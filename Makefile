@@ -18,7 +18,7 @@ MDROOT=../../build
 
 # The default configuration is Release since Roslyn
 ifeq ($(config),)
-config=Release
+config=ReleaseMac
 endif
 
 .PHONY: all
