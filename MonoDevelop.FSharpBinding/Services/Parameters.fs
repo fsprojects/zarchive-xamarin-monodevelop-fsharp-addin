@@ -61,5 +61,5 @@ type FSharpCompilerParameters() =
   override x.CreateCompilationOptions () =
       null //TODO
 
-  override x.CreateParseOptions () =
+  override x.CreateParseOptions (_) =
       null //TODO
