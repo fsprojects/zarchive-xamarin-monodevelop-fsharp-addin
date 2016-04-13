@@ -177,6 +177,22 @@ module FSharpSymbolExt =
                 | None -> l
             loop x 0
 
+        
+        member x.AllBaseTypes =
+            let rec allBaseTypes (entity:FSharpEntity) =
+                [
+                    match entity.TryFullName with
+                    | Some _ ->
+                        match entity.BaseType with
+                        | Some bt ->
+                            yield bt
+                            if bt.HasTypeDefinition then
+                                yield! allBaseTypes bt.TypeDefinition
+                        | _ -> ()
+                    | _ -> ()
+                ]
+            allBaseTypes x
+
 [<AutoOpen>]
 module FrameworkExt =
     type Path with
