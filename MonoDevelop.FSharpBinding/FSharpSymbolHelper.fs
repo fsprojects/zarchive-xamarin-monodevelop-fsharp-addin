@@ -10,6 +10,7 @@ open MonoDevelop.Ide
 open MonoDevelop.Ide.CodeCompletion
 open MonoDevelop.Components
 open ExtCore.Control
+open MonoDevelop
 
 module Symbols =
     let getLocationFromSymbolUse (s: FSharpSymbolUse) =
@@ -275,6 +276,18 @@ module SymbolUse =
     let (|ComputationExpression|_|) (symbol:FSharpSymbolUse) =
         if symbol.IsFromComputationExpression then Some symbol
         else None
+
+    let (|Attribute|_|) = function
+        | Entity ent ->
+            if ent.AllBaseTypes
+               |> Seq.exists (fun t ->
+                                  if t.HasTypeDefinition then
+                                      t.TypeDefinition.TryFullName
+                                      |> Option.exists ((=) "System.Attribute" )
+                                  else false)
+            then Some ent
+            else None
+        | _ -> None
 
 type XmlDoc =
   ///A full xmldoc tooltip

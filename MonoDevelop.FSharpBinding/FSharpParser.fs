@@ -16,12 +16,12 @@ module ParsedDocument =
         let errorType = if error.Severity = FSharpErrorSeverity.Error then ErrorType.Error else ErrorType.Warning
         Error(errorType, String.wrapText error.Message 80, DocumentRegion (error.StartLineAlternate, error.StartColumn + 1, error.EndLineAlternate, error.EndColumn + 1))
        
-    let create (parseOptions: ParseOptions) (parseResults: ParseAndCheckResults) defines =
+    let create (parseOptions: ParseOptions) (parseResults: ParseAndCheckResults) defines location =
       //Try creating tokens
         async {
             let fileName = parseOptions.FileName
             let shortFilename = Path.GetFileName fileName
-            let doc = new FSharpParsedDocument(fileName, Flags = ParsedDocumentFlags.NonSerializable)
+            let doc = new FSharpParsedDocument(fileName, location)
             
             doc.Tokens <- Tokens.tryGetTokens parseOptions.Content defines fileName
 
@@ -114,7 +114,7 @@ type FSharpParser() =
 
         let shortFilename = Path.GetFileName fileName
         LoggingService.LogDebug ("FSharpParser: Parse starting on {0}", shortFilename)
-
+        let location = doc.Value.Editor.CaretLocation
         Async.StartAsTask(
             cancellationToken = cancellationToken,
             computation =
@@ -131,8 +131,8 @@ type FSharpParser() =
                             let! results = pendingParseResults
                             //if you ever want to see the current parse tree
                             //let pt = match results.ParseTree with Some pt -> sprintf "%A" pt | _ -> ""
-                            return! ParsedDocument.create parseOptions results defines
+                            return! ParsedDocument.create parseOptions results defines (Some location)
                         with exn ->
                             LoggingService.LogError ("FSharpParser: Error ParsedDocument on {0}", shortFilename, exn)
-                            return FSharpParsedDocument(fileName) :> _
-                    | None -> return FSharpParsedDocument(fileName) :> _ })
+                            return FSharpParsedDocument(fileName, None) :> _
+                    | None -> return FSharpParsedDocument(fileName, None) :> _ })
