@@ -147,10 +147,6 @@
       <Private>False</Private>
       <HintPath>..\..\..\build\bin\Xwt.Gtk.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.TextEditor">
-      <Private>False</Private>
-      <HintPath>..\..\..\build\bin\Mono.TextEditor.dll</HintPath>
-    </Reference>
     <Reference Include="MonoDevelop.Core">
       <Private>False</Private>
       <HintPath>..\..\..\build\bin\MonoDevelop.Core.dll</HintPath>
@@ -209,6 +205,9 @@
       <Project>{AF5FEAD5-B50E-4F07-A274-32F23D5C504D}</Project>
       <Name>MonoDevelop.FSharp.Shared</Name>
     </ProjectReference>
+    <Reference Include="MonoDevelop.SourceEditor">
+      <HintPath>..\..\..\build\bin\MonoDevelop.SourceEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
