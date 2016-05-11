@@ -326,7 +326,7 @@ type FSharpInteractivePad() =
             x.SendCommand text
             //advance to the next line
             if PropertyService.Get ("FSharpBinding.AdvanceToNextLine", true)
-            then IdeApp.Workbench.ActiveDocument.Editor.SetCaretLocation (line + 1, Mono.TextEditor.DocumentLocation.MinColumn, false)
+            then IdeApp.Workbench.ActiveDocument.Editor.SetCaretLocation (line + 1, MonoDevelop.Ide.Editor.DocumentLocation.MinColumn, false)
 
     member x.SendFile() =
         let text = IdeApp.Workbench.ActiveDocument.Editor.Text
