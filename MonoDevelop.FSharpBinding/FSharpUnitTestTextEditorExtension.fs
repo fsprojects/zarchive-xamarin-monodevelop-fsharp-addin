@@ -99,6 +99,7 @@ module unitTestGatherer =
                 dnp.GetReferencedAssemblies(MonoDevelop.getConfig())
                 |> Async.AwaitTask
                 |> Async.RunSynchronously
+                |> Seq.map (fun a -> a.FilePath |> string)
                 |> Seq.exists (fun r -> r.EndsWith ("nunit.framework.dll", StringComparison.InvariantCultureIgnoreCase)
                                         || r.EndsWith ("GuiUnit.exe", StringComparison.InvariantCultureIgnoreCase)) 
             with ex ->

@@ -109,8 +109,8 @@ type FSharpInteractivePad() as this =
         sendCommand cie
 
     /// Make path absolute using the specified 'root' path if it is not already
-    let makeAbsolute root (path:string) =
-        let path = path.Replace("\"","")
+    let makeAbsolute root (assemblyReference:AssemblyReference) =
+        let path = (assemblyReference.FilePath |> string).Replace("\"","")
         if Path.IsPathRooted(path) then path
         else Path.Combine(root, path)
 

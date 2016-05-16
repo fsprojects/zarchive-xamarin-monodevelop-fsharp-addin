@@ -202,6 +202,11 @@ module CompilerArguments =
 
        let wrapf = if shouldWrap then wrapFile else id
 
+       let getReferencedAssemblies (project: DotNetProject) =
+            LoggingService.logDebug "Fetching referenced assemblies for %s " project.Name
+            async {
+                return! project.GetReferencedAssemblies configSelector |> Async.AwaitTask
+            } |> Async.RunSynchronously
        [
         let portableRefs =
             if needsFacades() then
@@ -215,6 +220,7 @@ module CompilerArguments =
           project.References
           |> Seq.collect Project.getAssemblyLocations
           |> Seq.append portableRefs
+          |> Seq.append (getReferencedAssemblies project |> Seq.map (fun a -> a.FilePath |> string))
           |> Seq.toList
 
         let projectReferences =
