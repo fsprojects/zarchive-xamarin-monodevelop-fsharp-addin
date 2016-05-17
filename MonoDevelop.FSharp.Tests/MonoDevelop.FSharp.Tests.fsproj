@@ -112,6 +112,9 @@
     <Reference Include="MonoDevelop.SourceEditor">
       <HintPath>..\..\..\build\bin\MonoDevelop.SourceEditor.dll</HintPath>
     </Reference>
+    <Reference Include="FSharpBinding">
+      <HintPath>..\bin\FSharpBinding.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestBase.fs" />
@@ -140,10 +143,6 @@
   </PropertyGroup>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
-    <ProjectReference Include="..\MonoDevelop.FSharpBinding\MonoDevelop.FSharp.fsproj">
-      <Project>{4C10F8F9-3816-4647-BA6E-85F5DE39883A}</Project>
-      <Name>MonoDevelop.FSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MonoDevelop.FSharpi.Service\MonoDevelop.FSharpInteractive.Service.fsproj">
       <Project>{20D6EC2C-B62E-49D1-B685-90D8967A5B5D}</Project>
       <Name>MonoDevelop.FSharpInteractive.Service</Name>

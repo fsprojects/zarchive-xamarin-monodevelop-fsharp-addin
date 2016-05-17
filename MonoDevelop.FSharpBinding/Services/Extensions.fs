@@ -3,6 +3,7 @@ open System
 open System.Text
 open System.IO
 open Microsoft.FSharp.Compiler.SourceCodeServices
+open Mono.TextEditor
 open MonoDevelop.Core
 open MonoDevelop.Ide.Editor
 open ExtCore
@@ -250,3 +251,9 @@ module LoggingService =
     let logError format = log LoggingService.LogError format
     let logInfo format = log LoggingService.LogInfo format
     let logWarning format = log LoggingService.LogWarning format
+
+[<AutoOpen>]
+module MonoTextEditor =
+    type MonoDevelop.Ide.Editor.TextEditor with
+        member x.GetTextEditorData() =
+            x.GetContent<ITextEditorDataProvider>().GetTextEditorData()

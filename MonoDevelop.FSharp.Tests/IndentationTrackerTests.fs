@@ -2,7 +2,8 @@
 open NUnit.Framework
 open MonoDevelop.FSharp
 open FsUnit
-open Mono.TextEditor
+open MonoDevelop.Ide.Editor
+open MonoDevelop.Ide.Editor.Extension;
 
 [<TestFixture>]
 type IndentationTrackerTests() =
@@ -24,17 +25,27 @@ type IndentationTrackerTests() =
 
     let insertEnterAtSection (text:string) =
         let idx = text.IndexOf ('§')
-        let doc = TextDocument(text.Replace("§", ""))
-        use data = new TextEditorData (doc)
-        data.Caret.Offset <- idx
-        MiscActions.InsertNewLine(data)
+        let source = text.Replace("§", "")
+        //use data = new TextEditorData (doc)
+        //data.Caret.Offset <- idx
+        //MiscActions.InsertNewLine(data)
+
+        
+        let doc = TestHelpers.createDoc source ""
+        let data = doc.Editor.GetTextEditorData()
+        doc.Editor.CaretOffset <- idx
+        doc.Editor.InsertAtCaret ("\n")
+        //MiscActions.InsertNewLine(data)
+
         data.Document.Text
 
     [<Test>]
     member x.``Basic indents``() =
         let getIndent (doc:TestDocument, line:int, col) =
             doc.Editor.SetCaretLocation (2, 2)
-            let column = doc.Editor.GetVirtualIndentationColumn (line)
+            let data = doc.Editor.GetTextEditorData()
+
+            let column = data.GetVirtualIndentationColumn (line)
             column
 
         let doc = "" |> TestHelpers.createDoc """
