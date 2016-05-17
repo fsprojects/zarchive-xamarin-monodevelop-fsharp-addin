@@ -2,6 +2,7 @@
 open NUnit.Framework
 open MonoDevelop.FSharp
 open FsUnit
+open Mono.TextEditor
 open MonoDevelop.Ide.Editor
 open MonoDevelop.Ide.Editor.Extension;
 
@@ -25,18 +26,10 @@ type IndentationTrackerTests() =
 
     let insertEnterAtSection (text:string) =
         let idx = text.IndexOf ('§')
-        let source = text.Replace("§", "")
-        //use data = new TextEditorData (doc)
-        //data.Caret.Offset <- idx
-        //MiscActions.InsertNewLine(data)
-
-        
-        let doc = TestHelpers.createDoc source ""
-        let data = doc.Editor.GetTextEditorData()
-        doc.Editor.CaretOffset <- idx
-        doc.Editor.InsertAtCaret ("\n")
-        //MiscActions.InsertNewLine(data)
-
+        let input = text.Replace("§", "")
+        use data = new TextEditorData (new TextDocument (input))
+        data.Caret.Offset <- idx
+        MiscActions.InsertNewLine(data)
         data.Document.Text
 
     [<Test>]
@@ -58,7 +51,7 @@ let b = (fun a ->
         doc.Editor.SetIndentationTracker (FSharpIndentationTracker(doc.Editor))
         getIndent (doc, 3, 1) |> should equal 5
         getIndent (doc, 5, 1) |> should equal 5
-        getIndent (doc, 7, 1) |> should equal 3
+        getIndent (doc, 7, 1) |> should equal 5
 
     [<Test>]
     member x.``Match expression``() =

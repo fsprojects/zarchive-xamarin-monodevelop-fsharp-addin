@@ -52,7 +52,6 @@ module TestHelpers =
 
         let doc = TextEditorFactory.CreateNewReadonlyDocument(StringTextSource(source), filename, "text/fsharp")
         let editor = MonoDevelop.Ide.Editor.TextEditorFactory.CreateNewEditor (doc)
-
         TestDocument(filename, parsedDocument, editor)
 
     let getAllSymbols source =

@@ -4,7 +4,8 @@ open System
 open NUnit.Framework
 open MonoDevelop.FSharp
 open Mono.TextEditor
-open MonoDevelop.Ide.Editor.Highlighting
+open Mono.TextEditor.Highlighting
+//open MonoDevelop.Ide.Editor.Highlighting
 open MonoDevelop.Ide.Editor
 open FsUnit
 
@@ -14,11 +15,16 @@ type SyntaxHighlighting() =
         let offset = input.IndexOf("§")
         let length = input.LastIndexOf("§") - offset - 1
         let input = input.Replace("§", "")
-        let doc = TestHelpers.createDoc input ""
-        let data = doc.Editor.GetTextEditorData()
-        let syntaxMode = data.Document.SyntaxMode
+        //let doc = TestHelpers.createDoc input ""
+        //let data = doc.Editor.GetTextEditorData()
+        //let syntaxMode = data.Document.SyntaxMode
+
+        let data = new TextEditorData (new TextDocument (input))
+        let syntaxMode = SyntaxModeService.GetSyntaxMode (data.Document, "text/x-fsharp")
+        let style = SyntaxModeService.GetColorStyle ("Gruvbox")
+
         let line = data.Lines |> Seq.head
-        let chunks = data.GetChunks(line, offset, line.Length)
+        let chunks = syntaxMode.GetChunks(style, line, offset, line.Length)
         let chunk = chunks |> Seq.tryFind (fun c -> c.Offset = offset && c.Length = length)
 
         match chunk with
