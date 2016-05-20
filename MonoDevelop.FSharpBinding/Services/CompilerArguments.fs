@@ -81,10 +81,18 @@ module CompilerArguments =
                               |> Seq.find (fun a -> a.Name = reference.Include)
                       [assembly.Location]
                   else
-                      reference.Package.Assemblies
-                      |> Seq.map (fun a -> a.Location)
-                      |> List.ofSeq
-
+                      let project =
+                          reference.Project 
+                          |> Option.tryCast<DotNetProject>
+                      match project with
+                      | Some project' ->
+                          if project'.TargetFramework.Id = reference.Package.TargetFramework then
+                              reference.Package.Assemblies
+                              |> Seq.map (fun a -> a.Location)
+                              |> List.ofSeq
+                          else
+                              []
+                      | _ -> []
           | ReferenceType.Project -> 
               let referencedProject = reference.Project :?> DotNetProject
               let reference =
