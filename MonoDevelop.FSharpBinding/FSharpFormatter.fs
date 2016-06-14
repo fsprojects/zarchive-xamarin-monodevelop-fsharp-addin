@@ -91,10 +91,10 @@ type FSharpFormatter()  =
                         let col = editor.CaretColumn
                         editor.ReplaceText(0, input.Length, result)
                         editor.SetCaretLocation (line, col, false))
-                    StringTextSource (result)
+                    StringTextSource result
                 with exn ->
                     LoggingService.LogError("Error occured: {0}", exn.Message)
-                    StringTextSource.Empty
+                    StringTextSource input
             output :> ITextSource
 
         | Selection(fromOffset, toOffset) ->
