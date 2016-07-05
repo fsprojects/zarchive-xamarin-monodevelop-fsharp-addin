@@ -452,16 +452,16 @@ module Completion =
             result.AddRange filteredModifiers
         result
 
-    let codeCompletionCommandImpl(editor:TextEditor, documentContext:DocumentContext, context:CodeCompletionContext, ctrlSpace) =
+    let codeCompletionCommandImpl(editor:TextEditor, documentContext:DocumentContext, offset, ctrlSpace) =
         async {
-            let line, col, lineStr = editor.GetLineInfoFromOffset context.TriggerOffset
+            let line, col, lineStr = editor.GetLineInfoFromOffset offset
             let completionContext = {
-                completionChar = editor.GetCharAt(context.TriggerOffset - 1)
+                completionChar = editor.GetCharAt(offset - 1)
                 lineToCaret = lineStr.[0..col-1]
                 line = line
                 column = col
                 editor = editor
-                triggerOffset = context.TriggerOffset
+                triggerOffset = offset
                 ctrlSpace = ctrlSpace
                 documentContext = documentContext
             }
@@ -659,15 +659,15 @@ type FSharpTextEditorCompletion() =
     override x.HandleCodeCompletionAsync(context, completionChar, token) =
         if IdeApp.Preferences.EnableAutoCodeCompletion.Value || completionChar = '.' then
             let computation =
-                Completion.codeCompletionCommandImpl(x.Editor, x.DocumentContext, context, false) 
+                Completion.codeCompletionCommandImpl(x.Editor, x.DocumentContext, context.TriggerOffset, false) 
                     
             Async.StartAsTask (computation = computation, cancellationToken = token)
         else
             Task.FromResult null
 
     /// Completion was triggered explicitly using Ctrl+Space or by the function above
-    override x.CodeCompletionCommand(context) =
-        Completion.codeCompletionCommandImpl(x.Editor, x.DocumentContext, context, true)
+    override x.CodeCompletionCommand(_context) =
+        Completion.codeCompletionCommandImpl(x.Editor, x.DocumentContext, x.Editor.CaretOffset, true)
         |> Async.StartAsTask
 
 
