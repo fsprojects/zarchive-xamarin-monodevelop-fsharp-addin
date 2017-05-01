@@ -1,4 +1,5 @@
-# This repo is now redundant. The F# plugin is now contained within the [monodevelop repo](https://github.com/mono/monodevelop)
+# __This repo is now redundant.__
+#The F# plugin is now contained within the [monodevelop repo](https://github.com/mono/monodevelop)
 
 # F# Language Support for MonoDevelop / Xamarin Studio
 
