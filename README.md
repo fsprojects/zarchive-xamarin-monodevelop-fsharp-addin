@@ -1,5 +1,5 @@
 # __This repo is now redundant.__
-#The F# plugin is now contained within the [monodevelop repo](https://github.com/mono/monodevelop)
+#The F# plugin is now contained within the [monodevelop repo](https://github.com/mono/monodevelop/tree/master/main/external/fsharpbinding)
 
 # F# Language Support for MonoDevelop / Xamarin Studio
 
